@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700|Lato:400");
+
+        * {
+            outline-width: 0;
+            font-family: "Roboto";
+        }
+
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 10px 0;
+            box-sizing: border-box;
+
+            &.change {
+                background: #fff;
+                box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+
+                a {
+                    color: #000 !important;
+
+                    &:after {
+                        background: #000 !important;
+                    }
+                }
+
+                h1 {
+                    color: #000 !important;
+                }
+            }
+        }
+
+        #nav-wrapper {
+            width: 1024px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+
+            h1 {
+                margin: 0;
+                font-family: "Lato";
+                color: #fff;
+                font-size: 24px;
+                font-weight: 400;
+            }
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 2;
+            cursor: default;
+            overflow: hidden;
+
+            ul {
+                padding: 0;
+                margin: 0;
+
+                li {
+                    list-style: none;
+                    display: inline-block;
+
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                        display: block;
+                        padding: 10px 15px;
+                        position: relative;
+                        box-sizing: border-box;
+
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            height: 2px;
+                            width: 100%;
+                            bottom: 0;
+                            background: #fff;
+                            left: 0;
+                            transform: scale(0, 1);
+                            transition: 0.3s ease;
+                        }
+
+                        &:hover:after {
+                            transform: scale(1, 1);
+                        }
+                    }
+                }
+            }
+
+            &.toggle {
+                height: 100%;
+            }
+        }
+
+        .mobile-nav {
+            display: flex;
+            padding: 15px;
+            box-sizing: border-box;
+            cursor: pointer;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 101;
+            background: #fff;
+
+            h1 {
+                margin: 0;
+                font-weight: 400;
+                flex: 1;
+                font-size: 52px;
+            }
+
+            span {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+
+                &:before {
+                    font-size: 53px;
+                }
+            }
+        }
+
+        .videoModal {
+            position: fixed;
+            z-index: 102;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+
+            iframe {
+                width: 740px;
+                height: 416px;
+                transform: scale(0, 0);
+                border-radius: 5px;
+            }
+
+            &.toggle {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        .OpenVideo {
+            animation: OpenVideo 0.3s ease forwards;
+        }
+
+        @keyframes OpenVideo {
+            0% {
+                transform: scale(0.6, 0.6);
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: scale(1, 1);
+                opacity: 1;
+            }
+        }
+
+        .hero {
+            height: 100vh;
+
+            .background,
+            .overlay,
+            .hero-content {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+            }
+
+            .background {
+                background: url("https://static.pexels.com/photos/306253/pexels-photo-306253.jpeg") center;
+                background-size: cover;
+                filter: grayscale(0.8);
+                z-index: 1;
+            }
+
+            .overlay {
+                background: linear-gradient(to bottom right, #673ab7, 60%, #2196f3);
+                opacity: 0.9;
+                z-index: 2;
+            }
+
+            .hero-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                z-index: 3;
+
+                h1 {
+                    margin: 0;
+                    font-weight: 400;
+                    color: #fff;
+                    font-size: 62px;
+                    position: relative;
+                    font-family: "Lato";
+                }
+
+                .line {
+                    height: 1px;
+                    width: 150px;
+                    background: #fff;
+                    margin: 10px 0;
+                }
+
+                p {
+                    color: #fff;
+                    margin: 5px 0 0 0;
+                }
+            }
+
+            .showVid {
+                background: transparent;
+                border: 1px solid #fff;
+                color: #fff;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-top: 15px;
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                transition: 0.3s ease;
+
+                * &:before {
+                    content: "";
+                    height: 100%;
+                    width: 100%;
+                    background: #fff;
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    transition: 0.3s ease;
+                    z-index: -1;
+                }
+
+                &:hover {
+                    color: #000;
+
+                    &:before {
+                        left: 0;
+                    }
+                }
+            }
+
+            .readMore {
+                position: absolute;
+                z-index: 4;
+                bottom: 25px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 42px;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                text-decoration: none;
+
+                span:before {
+                    font-size: 32px;
+                    color: #fff;
+                }
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            .mobile-nav {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            #nav-wrapper {
+                width: 100%;
+                display: block;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            nav {
+                background: #fff;
+                padding: 0;
+
+                .nav-left {
+                    display: none;
+                }
+
+                .nav-right {
+                    justify-content: flex-start;
+                    height: 0;
+                    margin-top: 90px;
+
+                    ul {
+                        width: 100%;
+
+                        li {
+                            display: block !important;
+                            width: 100%;
+
+                            a {
+                                color: #000 !important;
+                                width: 100%;
+                                font-size: 26px;
+                                padding: 20px 30px;
+
+                                &:after {
+                                    height: 0 !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        #about {
+            padding-bottom: 1000px;
+            text-align: center;
+            padding-top: 50px;
+
+            h1 {
+                font-weight: 300;
+                text-transform: uppercase;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="videoModal">
+        <iframe src="https://www.youtube.com/embed/GTBaQ2DcGUk?rel=0" frameborder="0"
+            allowfullscreen="allowfullscreen"></iframe>
+    </div>
+    <div class="hero" id="home">
+        <div class="background"></div>
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>MonsifCluster</h1>
+            <style>
+                .slogan-container {
+                    text-align: center;
+                    animation: fadeIn 3s ease-in-out;
+                }
+
+                .slogan {
+                    font-size: 1.5rem;
+                    color: #333;
+                    max-width: 600px;
+                    margin: 0 auto;
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+
+                    to {
+                        opacity: 1;
+                    }
+                }
+            </style>
+            <div class="line"></div>
+            <p style="display: flex; text-align: center;     font-weight: 900;">Découvrez la puissance de notre Cluster
+                Hadoop pour gérer et
+                analyser des données massives en temps réel.
+                Optimisez vos décisions et libérez le potentiel de vos données avec notre infrastructure de pointe.
+                Rejoignez-nous pour révolutionner votre exploitation du Big Data.</p>
+            <button class="showVid">Voir Plus</button>
+        </div><a class="readMore smooth-scroll" href="#about"><span class="fa fa-angle-down"></span></a>
+    </div>
+    <div class="mobile-nav">
+        <h1>Monsif Cluster</h1><span class="fa fa-bars"></span>
+    </div>
+    
+    <nav>
+        <div id="nav-wrapper">
+            <div class="nav-left">
+                <h1>MonsifCluster</h1>
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a class="smooth-scroll" href="#home">Home</a></li>
+                    <li><a class="smooth-scroll" href="#about">About</a></li>
+                    <li><a class="smooth-scroll" href="#">The Team</a></li>
+                    <li><a class="smooth-scroll" href="#">Our Work</a></li>
+                    <li><a href="https://www.linkedin.com/in/monsif-cluster-71828b316" target="_blank">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ttttest -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+
+        /*====== typography ======*/
+
+        h1 {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.75rem;
+        }
+
+        h2 {
+            font-weight: 700;
+            color: #000;
+            font-size: 1.75rem;
+        }
+
+        .intro {
+            font-size: 1.15rem;
+            margin-bottom: 2.5em;
+        }
+
+        span {
+            color: #fda039;
+        }
+
+        .black {
+            font-weight: 700;
+            color: #000;
+        }
+
+        /*==== main-grid Layout ====*/
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: minmax(1em, 1fr) minmax(0px, 500px) minmax(1em, 1fr);
+            grid-column-gap: 2em;
+        }
+
+        /* ==== Layout ====*/
+
+        .header {
+            background: #000;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: row;
+            grid-column: 2 / -2;
+        }
+
+        .logo {
+            background: #fda039;
+            color: #000;
+            font-weight: 700;
+            padding: 1em .5em;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 1.25rem;
+        }
+
+        .navigation {
+            position: fixed;
+            background: #000;
+            width: 100%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 100%;
+            transform: translateX(0);
+            transition: transform 250ms;
+        }
+
+        .nav-list {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-size: 3rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #fda039;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .close-nav:hover,
+        .close-nav:focus,
+        .open-nav:hover,
+        .open-nav:focus {
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .open-nav {
+            border: 0;
+            background: 0;
+            color: #fff;
+            padding: .5em;
+            margin-left: auto;
+            font-size: 1em;
+        }
+
+        .navigation-open {
+            transform: translateX(-100%);
+        }
+
+        .close-nav {
+            border: 0;
+            background: 0;
+            color: #fda039;
+            font-weight: 700;
+            font-size: 3rem;
+            padding: .5em;
+            position: absolute;
+        }
+
+        .current {
+            border-bottom: 1px solid #fda039;
+        }
+
+        main {
+            background-color: #fff;
+            color: #000;
+            grid-column: 2 /-2;
+        }
+
+        .head {
+            grid-column: 2 / -2;
+            text-align: center;
+            margin-top: 3em;
+            margin-bottom: 3em;
+        }
+
+        .page-title {
+            color: #000;
+            font-size: 2.5rem;
+            justify-self: center;
+        }
+
+        .main-image {
+            grid-column: 2 / -2;
+            object-fit: cover;
+            max-width: 90%;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .main-image:hover {
+            transform: scale(1.1); }
+        .main-text {
+            grid-column: 2 / -2;
+            margin-top: 3em;
+            margin-bottom: 3em;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 3px;
+            margin-top: 1em;
+            background: #fda039;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sub {
+            margin-top: 3em;
+        }
+
+
+        .footer>* {
+            grid-column: 2 / -2;
+        }
+
+        .footer {
+            background: #ebebeb;
+            color: #000;
+        }
+
+        .social {
+            order: -1;
+            font-size: 1.75rem;
+            padding-top: 3em;
+            padding-bottom: 2em;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .icon {
+            color: #000;
+        }
+
+        .icon:hover,
+        .icon:focus {
+            cursor: mouse;
+            color: #fda039;
+        }
+
+        .footer-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .end {
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .copyright {
+            font-size: 1.1rem;
+            padding-top: 1em;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .footer-text,
+        .copyright {
+            opacity: .4;
+        }
+        
+
+
+        @media (min-width: 600px) {
+            .main-grid {
+                grid-template-columns: minmax(1em, 1fr) repeat(3, minmax(20px, 320px)) minmax(1em, 1fr);
+            }
+
+            .open-nav,
+            .close-nav {
+                display: none;
+            }
+
+            .navigation {
+                position: initial;
+            }
+
+            .nav-list {
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+
+            .nav-link {
+                margin-left: 1em;
+                font-size: 1.7rem;
+            }
+
+            .logo {
+                padding: .5em 1em;
+                text-align: center;
+            }
+
+            .head {
+                grid-column: 3 / -3;
+            }
+
+            .page-title::after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 5px;
+                background: #fda039;
+                margin-right: auto;
+                margin-left: auto;
+                margin-top: 10px;
+            }
+
+            .main-image {
+                grid-column: 2;
+                margin-top: 1.3em;
+
+            }
+
+            .main-text {
+                grid-column: 3 / span 2;
+                margin-top: 0;
+            }
+
+            .section-title::after {
+                margin-left: 0;
+            }
+
+
+
+            .footer {
+                padding-top: 2em;
+                padding-bottom: 2em;
+            }
+
+            .footer-text {
+                grid-column: 2 / span 2;
+            }
+
+            .social {
+                grid-column: span1;
+            }
+
+            .icon {
+                margin: .5em;
+            }
+
+            .footer-text {
+                width: 50vw;
+                margin-left: 0;
+                order: -1;
+            }
+
+            .end,
+            .copyright {
+                text-align: start;
+            }
+        }
+
+        @media(min-width: 700px) {
+            .page-title::after {
+                content: '';
+                display: block;
+                width: 160px;
+                height: 5px;
+                background: #fda039;
+                margin-right: auto;
+                margin-left: auto;
+                margin-top: 10px;
+            }
+        }
+    </style>
+    <main class="main-grid">
+        <img class="main-image"
+            src="C:\Users\OUMAIMA\Pictures\cluster.jpg"
+            alt="two men in a coworking space">
+
+        <div class="main-text">
+            <h2 class="section-title">Définition d'un Cluster Hadoop </h2>
+            <p> Un cluster de machines, composé de plusieurs ordinateurs interconnectés, 
+                permet de distribuer les tâches de traitement et d'analyse des données, offrant une 
+                capacité de traitement bien supérieure à celle d'une seule machine. </p>
+        
+
+            <h2 class="section-title sub">Objectif du Cluster Hadoop </h2>
+            <p>L'objectif d'un cluster Hadoop est de fournir une plateforme distribuée pour le stockage 
+                et le traitement de grandes quantités de données à l'aide du framework Hadoop.</p>
+            <p>Un cluster Hadoop vise à permettre le traitement parallèle et la gestion efficace de 
+                données massives à travers une infrastructure distribuée.</p>
+        </div>
+
+    </main>
+
+    <style>
+        body {
+            display: grid;
+            background: linear-gradient(to right, #fdfdfd, #fbfff8bb);
+            height: 100vh;
+            width: 100vw;
+            
+        }
+        .card {
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 12px;
+            padding: 2rem;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #007bff;
+            margin: 0.5rem auto;
+        }
+
+        .line {
+            width: 100%;
+            height: 2px;
+            background-color: #e9ecef;
+            margin-bottom: 2rem;
+        }
+
+        .steps-group {
+            margin-bottom: 2rem; /* Espace entre les groupes de cartes */
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .step {
+            background: #f0f0f0;
+            border-radius: 12px;
+            color: #333;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .step__title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #007bff;
+        }
+
+        .step__info {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .step__info ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .step__info li {
+            margin-bottom: 5px;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="title">
+            Étapes de Configuration
+        </div>
+        <div class="line"></div>
+        
+        <div class="steps-group">
+            <div class="steps">
+                <div class="step">
+                    <div class="step__title">
+                        Installation de Java et Hadoop
+                    </div>
+                    <div class="step__info">
+                        Installer Java JDK 1.8, télécharger et extraire Hadoop, et configurer les variables d'environnement pour Hadoop.
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step__title">
+                        Configuration des fichiers
+                    </div>
+                    <div class="step__info">
+                        Modification des fichiers :
+                        <ul>
+                            <li>Le fichier core-site.xml</li>
+                            <li>Le fichier hdfs-site.xml</li>
+                            <li>Le fichier mapred-site.xml</li>
+                            <li>Le fichier yarn-site.xml</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step__title">
+                        Configuration du SSH
+                    </div>
+                    <div class="step__info">
+                        Configurer SSH pour une connexion sans mot de passe entre les nœuds du cluster.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="steps-group">
+            <div class="steps">
+                <div class="step">
+                    <div class="step__title">
+                        Formatage du NameNode
+                    </div>
+                    <div class="step__info">
+                        Formater le NameNode pour préparer le système de fichiers Hadoop (HDFS).
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step__title">
+                        Démarrage du cluster Hadoop
+                    </div>
+                    <div class="step__info">
+                        <li>Démarrer le NameNode et les DataNodes.</li>
+                        <li>Démarrer les services YARN : ResourceManager et NodeManager.</li>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step__title">
+                        Validation et test du cluster
+                    </div>
+                    <div class="step__info">
+                        Vérifier l'état du cluster en utilisant les interfaces web d'Hadoop,
+                        et exécuter des jobs de test pour assurer que le cluster fonctionne correctement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+
+        /*Floating CSS Start*/
+        .wrapper {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .stuck {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            transform: translateY(100%);
+            width: 260px;
+            height: 145px;
+            animation: fade-in-up .25s ease forwards;
+            z-index: 999;
+        }
+
+        /*Floating CSS End*/
+
+        @keyframes example {
+            0% {
+                background-color: red;
+            }
+
+            25% {
+                background-color: #ff7037;
+            }
+
+            50% {
+                background-color: red;
+            }
+
+            100% {
+                background-color: #ff7037;
+            }
+        }
+
+        p.scrolldown {
+            width: 200px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid;
+            background: #ff7037;
+            position: fixed;
+            right: 75px;
+            color: #fff;
+            -webkit-animation-name: example;
+            /* Safari 4.0 - 8.0 */
+            -webkit-animation-duration: 4s;
+            /* Safari 4.0 - 8.0 */
+            animation-name: example;
+            animation-duration: 2s;    
+        }
+
+    </style>
+
+
+
+
+</body>
+
+<script>
+    $(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() >= 300) {
+                $("nav").addClass("change");
+            } else {
+                $("nav").removeClass("change");
+            }
+        });
+
+        $(".mobile-nav").click(function () {
+            $(".nav-right").toggleClass("toggle");
+        });
+
+        $(".showVid").click(function () {
+            $(".videoModal").addClass("toggle");
+            $(".videoModal iframe").addClass("OpenVideo");
+        });
+        $(".videoModal").click(function () {
+            $(".videoModal").removeClass("toggle");
+            $(".videoModal iframe").removeClass("OpenVideo");
+        });
+
+        var headerHeight = $("nav").outerHeight();
+        $(".smooth-scroll").click(function (e) {
+            var linkHref = $(this).attr("href");
+            $("html, body").animate(
+                {
+                    scrollTop: $(linkHref).offset().top - headerHeight + 1
+                },
+                700
+            );
+            e.preventDefault();
+        });
+    });
+
+
+    /*Floating Code for Iframe Start*/
+    if (
+        jQuery(
+            'iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"],iframe[src*="https://player.vimeo.com/"]'
+        ).length > 0
+    ) {
+        /*Wrap (all code inside div) all vedio code inside div*/
+        jQuery(
+            'iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"]'
+        ).wrap("<div class='iframe-parent-class'></div>");
+        /*main code of each (particular) vedio*/
+        jQuery(
+            'iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"]'
+        ).each(function (index) {
+            /*Floating js Start*/
+            var windows = jQuery(window);
+            var iframeWrap = jQuery(this).parent();
+            var iframe = jQuery(this);
+            var iframeHeight = iframe.outerHeight();
+            var iframeElement = iframe.get(0);
+            windows.on("scroll", function () {
+                var windowScrollTop = windows.scrollTop();
+                var iframeBottom = iframeHeight + iframeWrap.offset().top;
+                //alert(iframeBottom);
+
+                if (windowScrollTop > iframeBottom) {
+                    iframeWrap.height(iframeHeight);
+                    iframe.addClass("stuck");
+                    jQuery(".scrolldown").css({ display: "none" });
+                } else {
+                    iframeWrap.height("auto");
+                    iframe.removeClass("stuck");
+                }
+            });
+            /*Floating js End*/
+        });
+    }
+
+    /*Floating Code for Iframe End*/
+
+</script>
+
+</html>
+
+
+</body>
+</html>
